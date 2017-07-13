@@ -1,0 +1,33 @@
+{
+  "paragraphs": [
+    {
+      "user": "anonymous",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1499554626454_-1305897098",
+      "id": "20170708-225706_1726838218",
+      "dateCreated": "Jul 8, 2017 10:57:06 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "streaming",
+  "id": "2CM6Y97VD",
+  "angularObjects": {
+    "2CMSKUK2G:shared_process": [],
+    "2CM9MH43Q:shared_process": [],
+    "2CMTQEHU6:shared_process": [],
+    "2CKM1VY1G:shared_process": [],
+    "2CN2H2JCG:shared_process": [],
+    "2CMPRDYW6:shared_process": [],
+    "2CPY698CM:shared_process": [],
+    "2CP94VYZR:shared_process": [],
+    "2CPQ5NFW4:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}
