@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   zeppelin:
     container_name: zeppelin
@@ -7,16 +7,32 @@ services:
       - "8081:8080"
     volumes:
       - $PWD/notebooks:/usr/zeppelin/notebook
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "1"
+
   zookeeper:
     container_name: zookeeper
     image: cquezadav/zookeeper
     ports:
       - "2181:2181"
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "1"
   kafka:
     container_name: kafka
     image: cquezadav/kafka
     ports:
       - "9092:9092"
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "1"
     environment:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_CREATE_TOPICS: "storestreams:1:1"
