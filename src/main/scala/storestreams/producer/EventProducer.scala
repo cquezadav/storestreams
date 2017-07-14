@@ -11,7 +11,7 @@ import scala.util.Random
 object EventProducer extends App {
 
   val props = new Properties()
-  val host = ApplicationSettings.KafkaConfig.kafkaHost
+  val host = sys.env.get("DOCKERHOST").getOrElse(ApplicationSettings.KafkaConfig.kafkaHost)
   val port = ApplicationSettings.KafkaConfig.kafkaPort
   val topic = ApplicationSettings.KafkaConfig.kafkaTopic
 
