@@ -23,3 +23,6 @@ project/target/
 target/
 .scala_dependencies
 .worksheet
+spark-warehouse/
+events/
+.DS_Store
