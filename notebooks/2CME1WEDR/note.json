@@ -1,0 +1,136 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.kafka.clients.consumer.ConsumerConfig\nimport org.apache.spark.SparkConf\nimport org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}\nimport org.apache.spark.streaming.{Durations, StreamingContext}\n\nimport scala.collection.mutable",
+      "dateUpdated": "Jul 13, 2017 4:44:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.kafka.clients.consumer.ConsumerConfig\n\nimport org.apache.spark.SparkConf\n\nimport org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}\n\nimport org.apache.spark.streaming.{Durations, StreamingContext}\n\nimport scala.collection.mutable\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1499964292738_1370291474",
+      "id": "20170710-155147_610586207",
+      "dateCreated": "Jul 13, 2017 4:44:52 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "spark.close\nsparkStreamingContext.stop(true, true)\n",
+      "dateUpdated": "Jul 13, 2017 4:44:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\u003cconsole\u003e:31: error: not found: value sparkStreamingContext\n       sparkStreamingContext.stop(true, true)\n       ^\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1499964292748_1364904989",
+      "id": "20170710-160847_286413904",
+      "dateCreated": "Jul 13, 2017 4:44:52 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // Configure Spark to connect to Kafka running on local machine\n    val kafkaParam \u003d new mutable.HashMap[String, String]()\n    kafkaParam.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, \"192.168.99.100:9092\")\n    kafkaParam.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,\n      \"org.apache.kafka.common.serialization.StringDeserializer\")\n    kafkaParam.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,\n      \"org.apache.kafka.common.serialization.StringDeserializer\")\n    kafkaParam.put(ConsumerConfig.GROUP_ID_CONFIG, \"group1\")\n    kafkaParam.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, \"latest\")\n    kafkaParam.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, \"true\")\n\n    val conf \u003d new SparkConf().setMaster(\"local[2]\").setAppName(\"Kafka10\")\n\n    //Read messages in batch of 30 seconds\n    val sparkStreamingContext \u003d new StreamingContext(conf, Durations.seconds(5))\n\n    //Configure Spark to listen messages in topic test\n    val topicList \u003d List(\"storestreams\")\n\n    // Read value of each message from Kafka and return it\n    val messageStream \u003d KafkaUtils.createDirectStream(sparkStreamingContext,\n        LocationStrategies.PreferConsistent,\n        ConsumerStrategies.Subscribe[String, String](topicList, kafkaParam))\n    val lines \u003d messageStream.map(consumerRecord \u003d\u003e consumerRecord.value().asInstanceOf[String])\n\n    // Break every message into words and return list of words\n    val words \u003d lines.flatMap(_.split(\" \"))\n\n    // Take every word and return Tuple with (word,1)\n    val wordMap \u003d words.map(word \u003d\u003e (word, 1))\n\n    // Count occurance of each word\n    val wordCount \u003d wordMap.reduceByKey((first, second) \u003d\u003e first + second)\n\n    //Print the word count\n    lines.print()\n    wordCount.print()\n\n    sparkStreamingContext.start()\nsparkStreamingContext.awaitTermination()",
+      "dateUpdated": "Jul 13, 2017 4:44:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1499964292753_1375293210",
+      "id": "20170710-160540_632293614",
+      "dateCreated": "Jul 13, 2017 4:44:52 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jul 13, 2017 4:44:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1499964292754_1376447456",
+      "id": "20170710-160713_2126951480",
+      "dateCreated": "Jul 13, 2017 4:44:52 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "kafka",
+  "id": "2CME1WEDR",
+  "angularObjects": {
+    "2CQG2512H:shared_process": [],
+    "2CNKS7KZ4:shared_process": [],
+    "2CQRS3M38:shared_process": [],
+    "2CPYQAA9C:shared_process": [],
+    "2CN25WEZT:shared_process": [],
+    "2CQR6FC4C:shared_process": [],
+    "2CQS4AZNX:shared_process": [],
+    "2CNEWS7N2:shared_process": [],
+    "2CQXHV6T7:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}
