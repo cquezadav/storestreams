@@ -1,22 +1,32 @@
 package storestreams.utils
 
 import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.streaming.Duration
-import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.streaming.{Seconds, StreamingContext}
+import storestreams.utils.config.ApplicationConfig
 
 object SparkUtils {
-  private var sparkSession: SparkSession = null
+
   private var sparkConf: SparkConf = null
+  private var sparkSession: SparkSession = null
   private var streamingContext: StreamingContext = null;
 
-  def createSparkSession(appName: String, sparkHost: String, sparkPort: String, cassandraHost: String) = {
+  def getOrCreateSparkSession() = {
+    if (sparkSession == null)
+      createSparkSession()
+      sparkSession
+  }
+
+  private def createSparkSession() = {
+    val appName = ApplicationConfig.ApplicationConfig.applicationName
+    val host = ApplicationConfig.SparkConfig.host
+    val port = ApplicationConfig.SparkConfig.port
+    val cassandraHost = ApplicationConfig.CassandraConfig.nodes.get(0)
+    val sparkHost = if (!port.isEmpty) s"spark://$host:$port" else host
     sparkConf = new SparkConf(true)
       .setAppName(appName)
-      .setMaster(s"spark://$sparkHost:$sparkPort")
+      .setMaster(sparkHost)
       .set("spark.cassandra.connection.host", cassandraHost)
-
     sparkSession = SparkSession.builder().config(sparkConf).getOrCreate()
 
     // TODO
@@ -24,28 +34,17 @@ object SparkUtils {
     //sparkSession.sparkContext.setCheckpointDir(checkpointDirectory)
   }
 
-  def getSparkSession = {
-    sparkSession
+  def getOrCreateStreamingContext() = {
+    if (streamingContext == null)
+      createStreamingContext()
+      streamingContext
   }
 
-  def getSparkContext = {
-    sparkSession.sparkContext
-  }
-
-  def getSQLContext = {
-    sparkSession.sqlContext
-  }
-
-  def createSparkStreaming(appName: String, sparkHost: String, sparkPort: String, cassandraHost: String, batchDuration: Duration) = {
-    sparkConf = new SparkConf(true)
-      .setAppName(appName)
-      .setMaster(s"spark://$sparkHost:$sparkPort")
-      .set("spark.cassandra.connection.host", cassandraHost)
-    streamingContext = new StreamingContext(sparkConf, batchDuration)
-  }
-
-  def getStreamingContext = {
-    streamingContext
+  private def createStreamingContext() = {
+    val batchDuration = ApplicationConfig.SparkStreamingConfig.batchDuration
+    val checkpoint = ApplicationConfig.SparkStreamingConfig.checkpoint
+    streamingContext = new StreamingContext(sparkSession.sparkContext, Seconds(batchDuration))
+    streamingContext.checkpoint(checkpoint)
   }
 
   // TODO

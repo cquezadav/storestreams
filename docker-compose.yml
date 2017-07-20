@@ -34,9 +34,8 @@ services:
         max-size: "100m"
         max-file: "1"
     extra_hosts:
-     - "dockerhost:${DOCKERHOST}"
+     - "dockerhost:${_DOCKER_HOST}"
     environment:
-      #KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ADVERTISED_HOST_NAME: dockerhost
       KAFKA_CREATE_TOPICS: "storestreams:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -45,12 +44,12 @@ services:
 
   cassandra:
     container_name: cassandra
-    image: cassandra:3.11
+    image: cassandra:3.10
     ports:
       - "9042:9042"
-      - "9060:9060"
-    volumes:
-      - $PWD/cassandra:/var/lib/cassandra
+      - "9160:9160"
+    #volumes:
+      #- $PWD/cassandra:/var/lib/cassandra
     logging:
       driver: json-file
       options:

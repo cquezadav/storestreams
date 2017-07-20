@@ -24,7 +24,7 @@ object MessageGenerator {
     val productId = departmentId + random.nextInt(4998)
     val action = Action(random.nextInt(Action.size))
     val transactionId = UUIDs.timeBased().timestamp()
-    val quantity = if (action.equals("click") || action.equals("save for later")) 0 else random.nextInt(20)
+    val quantity = if (action.equals("click") || action.equals("save for later")) 0 else random.nextInt(49) + 1
     val paymentType = if (action.equals("click") || action.equals("save for later")) "none" else PaymentType(random.nextInt(PaymentType.size))
     val shipmentType = if (action.equals("click") || action.equals("save for later")) "none" else ShipmentType(random.nextInt(ShipmentType.size))
     counter += 1

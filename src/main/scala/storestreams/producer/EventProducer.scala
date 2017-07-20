@@ -4,16 +4,16 @@ import java.util.Properties
 
 import com.google.gson.GsonBuilder
 import org.apache.kafka.clients.producer.{KafkaProducer, Producer, ProducerConfig, ProducerRecord}
-import storestreams.config.ApplicationSettings
+import storestreams.utils.config.ApplicationConfig
 
 import scala.util.Random
 
 object EventProducer extends App {
 
   val props = new Properties()
-  val host = sys.env.get("DOCKERHOST").getOrElse(ApplicationSettings.KafkaConfig.kafkaHost)
-  val port = ApplicationSettings.KafkaConfig.kafkaPort
-  val topic = ApplicationSettings.KafkaConfig.kafkaTopic
+  val host = sys.env.get("DOCKERHOST").getOrElse(ApplicationConfig.KafkaConfig.host)
+  val port = ApplicationConfig.KafkaConfig.port
+  val topic = ApplicationConfig.KafkaConfig.topic
 
   props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, s"$host:$port")
   props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer")

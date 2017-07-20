@@ -1,0 +1,170 @@
+{
+  "paragraphs": [
+    {
+      "text": "val rawEvents \u003d spark\n      .read\n      .format(\"org.apache.spark.sql.cassandra\")\n      .options(Map(\"keyspace\" -\u003e \"storestreams\", \"table\" -\u003e \"raw_events\"))\n      .load() \n    \n",
+      "user": "anonymous",
+      "dateUpdated": "Jul 19, 2017 4:41:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nrawEvents: org.apache.spark.sql.DataFrame \u003d [year: int, month: int ... 17 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1500478659081_171442009",
+      "id": "20170719-153739_1582165968",
+      "dateCreated": "Jul 19, 2017 3:37:39 PM",
+      "dateStarted": "Jul 19, 2017 4:41:46 PM",
+      "dateFinished": "Jul 19, 2017 4:42:14 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val eventsPerLocPerHour \u003d spark\n      .read\n      .format(\"org.apache.spark.sql.cassandra\")\n      .options(Map(\"keyspace\" -\u003e \"storestreams\", \"table\" -\u003e \"events_per_location_per_hour_speed\"))\n      .load() \n    ",
+      "user": "anonymous",
+      "dateUpdated": "Jul 19, 2017 4:19:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\neventsPerLocPerHour: org.apache.spark.sql.DataFrame \u003d [year: int, month: int ... 4 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1500479275466_-1283250376",
+      "id": "20170719-154755_1616818720",
+      "dateCreated": "Jul 19, 2017 3:47:55 PM",
+      "dateStarted": "Jul 19, 2017 4:19:37 PM",
+      "dateFinished": "Jul 19, 2017 4:19:39 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.sql.functions._\n//val employee1 \u003d spark.range(0, 3).select($\"id\".as(\"id\"), (rand() * 3).cast(\"int\").as(\"dep_id\"), (rand() * 40 + 20).cast(\"int\").as(\"age\"))\nval count \u003d eventsPerLocPerHour.groupBy(\"year\").sum(\"count\")\ncount.show",
+      "user": "anonymous",
+      "dateUpdated": "Jul 19, 2017 4:23:31 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.sql.functions._\n\ncount: org.apache.spark.sql.DataFrame \u003d [year: int, sum(count): bigint]\n+----+----------+\n|year|sum(count)|\n+----+----------+\n|2017|    228205|\n+----+----------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1500479288685_977549486",
+      "id": "20170719-154808_672890383",
+      "dateCreated": "Jul 19, 2017 3:48:08 PM",
+      "dateStarted": "Jul 19, 2017 4:23:32 PM",
+      "dateFinished": "Jul 19, 2017 4:23:38 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val rawEventsCount \u003d rawEvents.groupBy(\"year\", \"month\", \"day\", \"hour\", \"location\" ).sum(\"quantity\")\nrawEventsCount.show(1000)",
+      "user": "anonymous",
+      "dateUpdated": "Jul 19, 2017 5:27:44 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": "org.apache.thrift.transport.TTransportException",
+      "apps": [],
+      "jobName": "paragraph_1500479833683_1016803740",
+      "id": "20170719-155713_429341512",
+      "dateCreated": "Jul 19, 2017 3:57:13 PM",
+      "dateStarted": "Jul 19, 2017 5:27:45 PM",
+      "dateFinished": "Jul 19, 2017 5:27:45 PM",
+      "status": "ERROR",
+      "errorMessage": "org.apache.thrift.transport.TTransportException\n\tat org.apache.thrift.transport.TIOStreamTransport.read(TIOStreamTransport.java:132)\n\tat org.apache.thrift.transport.TTransport.readAll(TTransport.java:86)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readAll(TBinaryProtocol.java:429)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readI32(TBinaryProtocol.java:318)\n\tat org.apache.thrift.protocol.TBinaryProtocol.readMessageBegin(TBinaryProtocol.java:219)\n\tat org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:69)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.recv_interpret(RemoteInterpreterService.java:266)\n\tat org.apache.zeppelin.interpreter.thrift.RemoteInterpreterService$Client.interpret(RemoteInterpreterService.java:250)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreter.interpret(RemoteInterpreter.java:366)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:95)\n\tat org.apache.zeppelin.notebook.Paragraph.jobRun(Paragraph.java:406)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:175)\n\tat org.apache.zeppelin.scheduler.RemoteScheduler$JobRunner.run(RemoteScheduler.java:329)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "user": "anonymous",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1500481365529_1736446695",
+      "id": "20170719-162245_73067899",
+      "dateCreated": "Jul 19, 2017 4:22:45 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "storestreams",
+  "id": "2CR9MD2YU",
+  "angularObjects": {
+    "2CN7F1536:shared_process": [],
+    "2CQMQP4CR:shared_process": [],
+    "2CRAXAPR5:shared_process": [],
+    "2CPYBWJAJ:shared_process": [],
+    "2CP9D8JRA:shared_process": [],
+    "2CQGU2A1Q:shared_process": [],
+    "2CPNNGEPA:shared_process": [],
+    "2CP31XCJ6:shared_process": [],
+    "2CQP61JD8:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

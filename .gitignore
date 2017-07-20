@@ -26,3 +26,4 @@ target/
 spark-warehouse/
 events/
 .DS_Store
+checkpoint/

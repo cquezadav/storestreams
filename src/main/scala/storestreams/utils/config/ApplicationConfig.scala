@@ -1,10 +1,13 @@
-package storestreams.config;
+package storestreams.utils.config
 
 import com.typesafe.config.ConfigFactory
 
-object ApplicationSettings {
+/**
+  * Gets configuration from application.conf file
+  */
+object ApplicationConfig {
   private val config = ConfigFactory.load()
-  private val rootConfig = config.getConfig("webEvents")
+  private val rootConfig = config.getConfig("storestreams")
 
   object ApplicationConfig {
     lazy val applicationName = rootConfig.getString("applicationName")
@@ -12,13 +15,14 @@ object ApplicationSettings {
 
   object CassandraConfig {
     private val cassandraConfig = rootConfig.getConfig("cassandra")
-    lazy val cassandraNodes = cassandraConfig.getStringList("nodes")
+    lazy val nodes = cassandraConfig.getStringList("nodes")
+    lazy val port = cassandraConfig.getInt("port")
   }
 
   object SchemaConfig {
     private val schemaConfig = rootConfig.getConfig("schema")
     lazy val keyspace = schemaConfig.getString("keyspace")
-    lazy val rawEventsDataTable = schemaConfig.getString("rawEventsDataTable")
+    lazy val rawEventsTable = schemaConfig.getString("rawEventsTable")
     lazy val eventsPerLocationPerHourBatchTable = schemaConfig.getString("eventsPerLocationPerHourBatchTable")
     lazy val eventsPerLocationPerHourSpeedTable = schemaConfig.getString("eventsPerLocationPerHourSpeedTable")
     lazy val eventsPerLocationPerDayBatchTable = schemaConfig.getString("eventsPerLocationPerDayBatchTable")
@@ -28,14 +32,21 @@ object ApplicationSettings {
 
   object KafkaConfig {
     private val kafkaConfig = rootConfig.getConfig("kafka")
-    lazy val kafkaHost = kafkaConfig.getString("host")
-    lazy val kafkaPort = kafkaConfig.getString("port")
-    lazy val kafkaTopic = kafkaConfig.getString("topic")
+    lazy val host = kafkaConfig.getString("host")
+    lazy val port = kafkaConfig.getString("port")
+    lazy val topic = kafkaConfig.getString("topic")
   }
 
   object SparkConfig {
     private val sparkConfig = rootConfig.getConfig("spark")
-    lazy val sparkHost = sparkConfig.getString("host")
-    lazy val sparkPort = sparkConfig.getString("port")
+    lazy val host = sparkConfig.getString("host")
+    lazy val port = sparkConfig.getString("port")
   }
+
+  object SparkStreamingConfig {
+    private val sparkStreamingConfig = rootConfig.getConfig("sparkStreaming")
+    lazy val batchDuration = sparkStreamingConfig.getInt("batchDuration")
+    lazy val checkpoint = sparkStreamingConfig.getString("checkpoint")
+  }
+
 }
