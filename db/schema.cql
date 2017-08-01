@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS storestreams.raw_events (
     PRIMARY KEY ((year, month, day, hour), event_id)
 );
 
-CREATE TABLE storestreams.events_per_location_per_hour_batch (
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_hour_batch (
     year int,
     month int,
     day int,
@@ -33,7 +33,7 @@ CREATE TABLE storestreams.events_per_location_per_hour_batch (
     PRIMARY KEY (year, month, day, hour, location)
 );
 
-CREATE TABLE storestreams.events_per_location_per_hour_speed (
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_hour_speed (
     year int,
     month int,
     day int,
@@ -43,3 +43,62 @@ CREATE TABLE storestreams.events_per_location_per_hour_speed (
     PRIMARY KEY (year, month, day, hour, location)
 );
 
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_day_speed (
+    year int,
+    month int,
+    day int,
+    location text,
+    count bigint,
+    PRIMARY KEY (year, month, day, location)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_month_speed (
+    year int,
+    month int,
+    location text,
+    count bigint,
+    PRIMARY KEY (year, month, location)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_year_speed (
+    year int,
+    location text,
+    count bigint,
+    PRIMARY KEY (year, location)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_speed (
+    location text,
+    count bigint,
+    PRIMARY KEY (location)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_year_speed (
+    year int,
+    count bigint,
+    PRIMARY KEY (year)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_month_speed (
+    year int,
+    month int,
+    count bigint,
+    PRIMARY KEY (year, month)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_day_speed (
+    year int,
+    month int,
+    day int,
+    count bigint,
+    PRIMARY KEY (year, month, day)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_hour_speed (
+    year int,
+    month int,
+    day int,
+    hour int,
+    count bigint,
+    PRIMARY KEY (year, month, day, hour)
+);

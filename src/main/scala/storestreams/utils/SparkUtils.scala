@@ -28,10 +28,6 @@ object SparkUtils {
       .setMaster(sparkHost)
       .set("spark.cassandra.connection.host", cassandraHost)
     sparkSession = SparkSession.builder().config(sparkConf).getOrCreate()
-
-    // TODO
-    //val checkpointDirectory = "//checkpoint"
-    //sparkSession.sparkContext.setCheckpointDir(checkpointDirectory)
   }
 
   def getOrCreateStreamingContext() = {
@@ -46,15 +42,4 @@ object SparkUtils {
     streamingContext = new StreamingContext(sparkSession.sparkContext, Seconds(batchDuration))
     streamingContext.checkpoint(checkpoint)
   }
-
-  // TODO
-  /*def getStreamingContext(streamingApp: (SparkContext, Duration) => StreamingContext, sc: SparkContext, batchDuration: Duration) = {
-    val creatingFunc = () => streamingApp(sc, batchDuration)
-    val ssc = sc.getCheckpointDir match {
-      case Some(checkpointDir) => StreamingContext.getActiveOrCreate(checkpointDir, creatingFunc, sc.hadoopConfiguration, createOnError = true)
-      case None                => StreamingContext.getActiveOrCreate(creatingFunc)
-    }
-    sc.getCheckpointDir.foreach(cp => ssc.checkpoint(cp))
-    ssc
-  }*/
 }
