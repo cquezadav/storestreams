@@ -1,14 +1,16 @@
 package storestreams.consumer
 
-import java.util.{Collections, Properties}
+import java.net.InetAddress
 import java.util.concurrent.{ExecutorService, Executors}
+import java.util.{Collections, Properties}
 
 import com.datastax.driver.core.utils.UUIDs
 import com.google.gson.Gson
 import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
 import org.joda.time.DateTime
-import storestreams.utils.config.{ApplicationConfig, InitializeApplication}
 import storestreams.domain.EventMessage
+import storestreams.utils.CassandraUtils
+import storestreams.utils.config.ApplicationConfig
 
 import scala.collection.JavaConversions.iterableAsScalaIterable
 
@@ -20,9 +22,11 @@ class RawDataConsumer {
 
   val props = createConsumerConfig(s"$host:$port", "group_1")
   val consumer = new KafkaConsumer[String, String](props)
+  val cassandraNodes = ApplicationConfig.CassandraConfig.nodes
+  val cassandraInets = cassandraNodes.map(InetAddress.getByName).toList
+  val cassandraPort = ApplicationConfig.CassandraConfig.port
   var executor: ExecutorService = null
-
-  InitializeApplication.connectCassandra()
+  CassandraUtils.connect(cassandraInets, cassandraPort)
 
   def shutdown() = {
     if (consumer != null)

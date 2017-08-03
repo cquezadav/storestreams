@@ -4,14 +4,12 @@ import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.KafkaUtils
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
-import storestreams.utils.config.{ApplicationConfig, InitializeApplication}
+import storestreams.utils.config.{ApplicationConfig}
 import storestreams.utils.SparkUtils
 
 object Speed extends App {
 
-  InitializeApplication.connectStreaming()
-  InitializeApplication.connectSpark()
-  val streaming = SparkUtils.getOrCreateStreamingContext()
+  val streaming = SparkUtils.getOrCreateStreamingContext(true)
   val spark = SparkUtils.getOrCreateSparkSession()
 
   val kafkaTopic = ApplicationConfig.KafkaConfig.topic

@@ -30,16 +30,18 @@ object SparkUtils {
     sparkSession = SparkSession.builder().config(sparkConf).getOrCreate()
   }
 
-  def getOrCreateStreamingContext() = {
+  def getOrCreateStreamingContext(withCheckpoint: Boolean) = {
     if (streamingContext == null)
-      createStreamingContext()
+      createStreamingContext(withCheckpoint)
       streamingContext
   }
 
-  private def createStreamingContext() = {
+  private def createStreamingContext(withCheckpoint: Boolean) = {
     val batchDuration = ApplicationConfig.SparkStreamingConfig.batchDuration
-    val checkpoint = ApplicationConfig.SparkStreamingConfig.checkpoint
     streamingContext = new StreamingContext(sparkSession.sparkContext, Seconds(batchDuration))
-    streamingContext.checkpoint(checkpoint)
+    if (withCheckpoint) {
+      val checkpoint = ApplicationConfig.SparkStreamingConfig.checkpoint
+      streamingContext.checkpoint(checkpoint)
+    }
   }
 }

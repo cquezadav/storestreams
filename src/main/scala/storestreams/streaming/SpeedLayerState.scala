@@ -10,19 +10,17 @@ import org.joda.time.DateTime
 import play.api.libs.json.Json
 import storestreams.domain.{EventMessage, EventPerLocationPerHourCount, EventTimeLocation}
 import storestreams.utils.SparkUtils
-import storestreams.utils.config.{ApplicationConfig, InitializeApplication}
+import storestreams.utils.config.ApplicationConfig
 
 import scala.collection.mutable
 
 object SpeedLayerState extends App {
 
-  InitializeApplication.connectSpark()
-  InitializeApplication.connectStreaming()
   val host = ApplicationConfig.KafkaConfig.host
   val port = ApplicationConfig.KafkaConfig.port
   val topic = ApplicationConfig.KafkaConfig.topic
   val spark = SparkUtils.getOrCreateSparkSession()
-  val streamingContext = SparkUtils.getOrCreateStreamingContext()
+  val streamingContext = SparkUtils.getOrCreateStreamingContext(true)
 
   // Configure Spark to connect to Kafka running on local machine
   val kafkaParam = new mutable.HashMap[String, String]()

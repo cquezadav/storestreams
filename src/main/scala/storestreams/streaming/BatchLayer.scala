@@ -3,11 +3,9 @@ package storestreams.streaming
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SaveMode}
 import storestreams.utils.SparkUtils
-import storestreams.utils.config.InitializeApplication
 
 object BatchLayer extends App {
 
-  InitializeApplication.connectSpark()
   val spark = SparkUtils.getOrCreateSparkSession()
 
   val rawEvents = spark

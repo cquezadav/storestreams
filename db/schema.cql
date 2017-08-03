@@ -23,13 +23,13 @@ CREATE TABLE IF NOT EXISTS storestreams.raw_events (
     PRIMARY KEY ((year, month, day, hour), event_id)
 );
 
-CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_hour_batch (
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_hour (
     year int,
     month int,
     day int,
     hour int,
     location text,
-    count bigint,
+    count counter,
     PRIMARY KEY (year, month, day, hour, location)
 );
 
@@ -43,13 +43,30 @@ CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_hour_speed (
     PRIMARY KEY (year, month, day, hour, location)
 );
 
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_day (
+    year int,
+    month int,
+    day int,
+    location text,
+    count counter,
+    PRIMARY KEY (year, month, day, location)
+);
+
 CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_day_speed (
     year int,
     month int,
     day int,
     location text,
-    count bigint,
+    count counter,
     PRIMARY KEY (year, month, day, location)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_month (
+    year int,
+    month int,
+    location text,
+    count counter,
+    PRIMARY KEY (year, month, location)
 );
 
 CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_month_speed (
@@ -60,11 +77,24 @@ CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_month_speed (
     PRIMARY KEY (year, month, location)
 );
 
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_year (
+    year int,
+    location text,
+    count counter,
+    PRIMARY KEY (year, location)
+);
+
 CREATE TABLE IF NOT EXISTS storestreams.events_per_location_per_year_speed (
     year int,
     location text,
     count bigint,
     PRIMARY KEY (year, location)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_location (
+    location text,
+    count counter,
+    PRIMARY KEY (location)
 );
 
 CREATE TABLE IF NOT EXISTS storestreams.events_per_location_speed (
@@ -73,10 +103,23 @@ CREATE TABLE IF NOT EXISTS storestreams.events_per_location_speed (
     PRIMARY KEY (location)
 );
 
+CREATE TABLE IF NOT EXISTS storestreams.events_per_year (
+    year int,
+    count counter,
+    PRIMARY KEY (year)
+);
+
 CREATE TABLE IF NOT EXISTS storestreams.events_per_year_speed (
     year int,
     count bigint,
     PRIMARY KEY (year)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_month (
+    year int,
+    month int,
+    count counter,
+    PRIMARY KEY (year, month)
 );
 
 CREATE TABLE IF NOT EXISTS storestreams.events_per_month_speed (
@@ -84,6 +127,22 @@ CREATE TABLE IF NOT EXISTS storestreams.events_per_month_speed (
     month int,
     count bigint,
     PRIMARY KEY (year, month)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_day (
+    year int,
+    month int,
+    day int,
+    count counter,
+    PRIMARY KEY (year, month, day)
+);
+
+CREATE TABLE IF NOT EXISTS storestreams.events_per_day (
+    year int,
+    month int,
+    day int,
+    count counter,
+    PRIMARY KEY (year, month, day)
 );
 
 CREATE TABLE IF NOT EXISTS storestreams.events_per_day_speed (
@@ -94,6 +153,15 @@ CREATE TABLE IF NOT EXISTS storestreams.events_per_day_speed (
     PRIMARY KEY (year, month, day)
 );
 
+CREATE TABLE IF NOT EXISTS storestreams.events_per_hour (
+    year int,
+    month int,
+    day int,
+    hour int,
+    count counter,
+    PRIMARY KEY (year, month, day, hour)
+);
+
 CREATE TABLE IF NOT EXISTS storestreams.events_per_hour_speed (
     year int,
     month int,
@@ -102,3 +170,5 @@ CREATE TABLE IF NOT EXISTS storestreams.events_per_hour_speed (
     count bigint,
     PRIMARY KEY (year, month, day, hour)
 );
+
+
