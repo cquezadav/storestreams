@@ -16,7 +16,7 @@ object Constants {
   val ShipmentType = Seq("shipment", "pickup")
   val UserLocations = {
     for {
-      line <- scala.io.Source.fromURL(getClass.getResource("/us_states.csv")).getLines().toVector
+      line <- scala.io.Source.fromURL(getClass.getResource("/data/us_states.csv")).getLines().toVector
       values = line.split(",").map(_.trim)
     } yield values(2)
   }

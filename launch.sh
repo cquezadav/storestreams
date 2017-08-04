@@ -13,7 +13,7 @@ while [ $attempt -le 20 ]; do
   if grep -q 'Starting listening for CQL clients' <<< $result ; then
     echo "Cassandra is up!"
     # create C* schema
-    docker cp db/schema.cql cassandra:schema.cql && docker exec cassandra cqlsh -f schema.cql
+    docker cp src/main/resources/db/schema.cql cassandra:schema.cql && docker exec cassandra cqlsh -f schema.cql
     break
   fi
   sleep 2

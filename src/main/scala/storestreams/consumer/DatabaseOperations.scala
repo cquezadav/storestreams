@@ -7,12 +7,6 @@ import storestreams.utils.CassandraUtils
 
 object DatabaseOperations extends App {
 
-  //  def initialize = {
-  //    val schema = Source.fromFile("db/schema.cql").getLines.mkString
-  //    val session = CassandraUtils.getSession();
-  //    session.execute(schema);
-  //  }
-
   def insertRawWebEvent(year: Int, month: Int, day: Int, hour: Int, minutes: Int, eventId: UUID, messageId: Long,
                         timestamp: Long, visitOrigin: String, deviceType: String, os: String, location: String,
                         department: String, productId: Long, quantity: Int, action: String, transactionId: Long,
@@ -35,7 +29,4 @@ object DatabaseOperations extends App {
       case e: Exception => println("Got this unknown exception: " + e)
     }
   }
-
-  //  InitializeApplication.connectCassandra()
-  //  initialize
 }
