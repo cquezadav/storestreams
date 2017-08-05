@@ -36,7 +36,7 @@ services:
     extra_hosts:
      - "dockerhost:${_DOCKER_HOST}"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: dockerhost
+      KAFKA_ADVERTISED_HOST_NAME: "${_DOCKER_HOST}"
       KAFKA_CREATE_TOPICS: "storestreams:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
