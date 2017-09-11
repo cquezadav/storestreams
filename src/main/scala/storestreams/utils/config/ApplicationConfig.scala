@@ -49,4 +49,9 @@ object ApplicationConfig {
     lazy val checkpoint = sparkStreamingConfig.getString("checkpoint")
   }
 
+  object MessagesProducer {
+    private val messagesProducerConfig = rootConfig.getConfig("messagesProducer")
+    lazy val timeWindow = messagesProducerConfig.getInt("timeWindow")
+  }
+
 }

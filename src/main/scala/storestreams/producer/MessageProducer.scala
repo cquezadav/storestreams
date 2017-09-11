@@ -13,6 +13,7 @@ object MessageProducer extends App {
   val host = ApplicationConfig.KafkaConfig.host
   val port = ApplicationConfig.KafkaConfig.port
   val topic = ApplicationConfig.KafkaConfig.topic
+  val timeWindow = ApplicationConfig.MessagesProducer.timeWindow
 
   props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, s"$host:$port")
   props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer")
@@ -20,6 +21,7 @@ object MessageProducer extends App {
   props.put(ProducerConfig.ACKS_CONFIG, "all")
   props.put(ProducerConfig.CLIENT_ID_CONFIG, "storestreamsproducer")
 
+  println(props)
   val kafkaProducer: Producer[Nothing, String] = new KafkaProducer[Nothing, String](props)
   println(kafkaProducer.partitionsFor(topic))
 
@@ -33,6 +35,6 @@ object MessageProducer extends App {
     val producerRecord = new ProducerRecord(topic, messageJson)
     kafkaProducer.send(producerRecord)
     //Thread.sleep(random.nextInt(50))
-    Thread.sleep(2000)
+    Thread.sleep(timeWindow)
   }
 }
