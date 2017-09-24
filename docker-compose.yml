@@ -23,6 +23,7 @@ services:
       options:
         max-size: "100m"
         max-file: "1"
+
   kafka:
     container_name: kafka
     image: cquezadav/kafka
@@ -34,9 +35,9 @@ services:
         max-size: "100m"
         max-file: "1"
     extra_hosts:
-     - "dockerhost:${_DOCKER_HOST}"
+     - "dockerhost:${DOCKER_HOST}"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: "${_DOCKER_HOST}"
+      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST}"
       KAFKA_CREATE_TOPICS: "storestreams:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
@@ -48,10 +49,11 @@ services:
     ports:
       - "9042:9042"
       - "9160:9160"
-    #volumes:
-      #- $PWD/cassandra:/var/lib/cassandra
     logging:
       driver: json-file
       options:
         max-size: "200m"
         max-file: "1"
+    # Volume does not work on OSX
+    #volumes:
+      #- $PWD/cassandra:/var/lib/cassandra
