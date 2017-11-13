@@ -5,15 +5,16 @@ lazy val baseSettings = Seq(
   scalaVersion := "2.11.11",
   libraryDependencies ++= Seq(
     "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
-    "org.apache.spark" %% "spark-streaming" % sparkVersion % "provided",
-    "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
-//          "org.apache.spark"        %%  "spark-streaming"                   % sparkVersion,
-//          "org.apache.spark"        %%  "spark-sql"                         % sparkVersion,
+//    "org.apache.spark" %% "spark-streaming" % sparkVersion % "provided",
+//    "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
+    "org.apache.spark"        %%  "spark-streaming"                   % sparkVersion,
+    "org.apache.spark"        %%  "spark-sql"                         % sparkVersion,
     "org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkVersion,
     "com.datastax.spark" %% "spark-cassandra-connector" % "2.0.0",
     "com.google.code.gson" % "gson" % "2.3.1",
     "com.typesafe.play" %% "play-json" % "2.4.6",
-    "org.apache.kafka" % "kafka-clients" % "0.10.1.0"
+    "org.apache.kafka" % "kafka-clients" % "0.10.1.0"//,
+    //"io.netty" % "netty-transport-native-epoll" % "4.0.27.Final" classifier "linux-x86_64"
   ),
   assemblyMergeStrategy in assembly := {
     case PathList("META-INF", xs@_*) => MergeStrategy.discard

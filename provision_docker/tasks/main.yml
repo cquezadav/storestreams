@@ -1,0 +1,55 @@
+- name: Provision docker & docker-compose
+  hosts: target
+  become: True
+  gather_facts: False
+
+  tasks:
+    - name: ensure python 2.7 is installed
+      raw: apt-get install -y python2.7 python-simplejson
+
+    - name: Install docker repo
+      apt_repository:
+        repo: "deb https://download.docker.com/linux/ubuntu xenial stable"
+        state: present
+
+    - name: install repo gpg key
+      apt_key:
+        url="https://download.docker.com/linux/ubuntu/gpg"
+        state=present
+
+    - name: Install latest version of "docker" ignoring "install-recommends"
+      apt:
+        name: "{{ item.name }}"
+        state: latest
+        install_recommends: no
+      with_items:
+          - { name: 'linux-image-extra-4.4.0-57-generic' }
+          - { name: 'linux-image-extra-virtual' }
+          - { name: 'python-setuptools' }
+          - { name: 'python-pkg-resources' }
+          - { name: 'python-pip' }
+          - { name: 'apt-transport-https' }
+          - { name: 'ca-certificates' }
+          - { name: 'curl' }
+          - { name: 'software-properties-common' }
+
+    - name: Upgrade pip
+      pip:
+        name: pip
+        extra_args: --upgrade
+
+    - name: refresh cache and install docker-ce
+      apt:
+        name=docker-ce
+        update_cache=yes
+        state=latest
+
+    - name: refresh cache and install docker-ce
+      apt:
+        name=docker-ce
+        update_cache=yes
+        state=latest
+
+    - name: Install docker-compose
+      pip:
+        name: docker-compose

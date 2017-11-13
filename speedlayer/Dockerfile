@@ -7,6 +7,11 @@ ENV KAFKA_HOST="192.168.99.100"
 ENV SPARK_MASTER="local[*]"
 ENV MESSAGES_TIME_WINDOW="2000"
 
-WORKDIR /app
+#CMD spark-submit --driver-memory 4g  --class streaming.SpeedLayerState speedlayer-1.0.jar
 
-CMD spark-submit --driver-memory 4g  --class streaming.SpeedLayerState speedlayer-1.0.jar
+# Launch
+COPY launch.sh /app/
+RUN chmod +x /app/launch.sh
+
+WORKDIR /app
+CMD ["./launch.sh"]

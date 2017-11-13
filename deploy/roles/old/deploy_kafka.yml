@@ -1,0 +1,37 @@
+---
+- name: Deploy Kakfa
+  hosts: localhost
+  gather_facts: False
+
+  vars:
+      # EC2 configuration
+      region: us-west-2
+      instance_type: t2.medium
+      vpc_subnet_id: subnet-0ce6486b
+      ami: ami-835b4efa  # Ubuntu
+      keypair: cquezada # pem file name
+      instance_name: Kafka
+      security_group: impera
+      assign_public_ip: yes
+      volume_size: 32
+      # AWS credentials
+      aws_secret_key: "{{ lookup('env','PERSONAL_AWS_SECRET_KEY') }}"
+      aws_access_key: "{{ lookup('env','PERSONAL_AWS_ACCESS_KEY') }}"
+
+  roles:
+    - ec2
+
+- name: Provision docker & docker-compose & deploy Cassandra
+  hosts: target
+  become: yes
+  become_method: sudo
+  gather_facts: false
+
+  vars:
+    pub_key: "/Users/cquezada/.ssh/id_rsa.pub"
+    kafka_private_host: "{{ hostvars[groups['target_private'][0]]['inventory_hostname'] }}"
+
+  roles:
+    - provision_docker
+    - add_authorized_key
+    - deploy_kafka

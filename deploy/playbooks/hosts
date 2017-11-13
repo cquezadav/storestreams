@@ -1,0 +1,7 @@
+[services]
+#ec2-54-218-128-230.us-west-2.compute.amazonaws.com
+54.201.41.170
+
+[amazon-linux-servers]
+#ec2-54-218-128-230.us-west-2.compute.amazonaws.com ansible_ssh_private_key_file=/Users/cquezada/Personal/aws_keys/cquezada.pem ansible_user=ubuntu
+#54.187.228.115 ansible_ssh_private_key_file=/Users/cquezada/Personal/aws_keys/cquezada.pem ansible_user=ubuntu

@@ -1,0 +1,13 @@
+---
+- name: Launch messages producer container
+  docker_container:
+    name: messagesproducer
+    image: cquezadav/messagesproducer
+    state: started
+    log_driver: json-file
+    log_options:
+      max-size: "200m"
+      max-file: "1"
+    env:
+      KAFKA_HOST: "{{ kafka_host }}"
+      MESSAGES_TIME_WINDOW: "{{ messages_time_window }}"

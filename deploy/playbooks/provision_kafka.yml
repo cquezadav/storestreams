@@ -1,0 +1,40 @@
+---
+- name: Create ec2 instance for kafka
+  hosts: localhost
+  gather_facts: False
+  vars_files:
+      - "../config/default.yml"
+  vars:
+    # EC2 configuration
+    instance_type: t2.medium
+    instance_name: Kafka
+    security_group: ['storestreams', 'default-ssh', 'default-kafka']
+    target_pub: target_kafka_pub
+    target_pub_ip: target_kafka_pub_ip
+
+  roles:
+    - ec2
+
+- name: Provision python to be able to get the facts
+  hosts: target_kafka_pub
+  become: yes
+  become_method: sudo
+  gather_facts: false
+  vars_files:
+      - "../config/default.yml"
+  roles:
+    - provision_python
+
+- name: Provision kafka
+  hosts: target_kafka_pub
+  become: yes
+  become_method: sudo
+  gather_facts: true
+  vars_files:
+      - "../config/default.yml"
+  vars:
+    kafka_host: "{{ hostvars[groups['target_kafka_pub'][0]]['inventory_hostname'] }}"
+
+  roles:
+    - add_authorized_key
+    - provision_kafka

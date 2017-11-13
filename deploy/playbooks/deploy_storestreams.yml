@@ -1,0 +1,13 @@
+---
+
+- include: init_security_group.yml
+
+- include: provision_cassandra.yml
+
+- include: provision_kafka.yml
+
+- include: deploy_rawdataconsumer.yml
+
+- include: deploy_messagesproducer.yml
+
+- include: update_security_group.yml

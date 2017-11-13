@@ -10,7 +10,7 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "100m"
+        max-size: "200m"
         max-file: "1"
 
   zookeeper:
@@ -21,7 +21,7 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "100m"
+        max-size: "200m"
         max-file: "1"
   kafka:
     container_name: kafka
@@ -31,12 +31,12 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "100m"
+        max-size: "200m"
         max-file: "1"
-    extra_hosts:
-     - "dockerhost:${_DOCKER_HOST}"
+#    extra_hosts:
+#     - "dockerhost:${KAFKA_HOST}"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: "${_DOCKER_HOST}"
+      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST}"
       KAFKA_CREATE_TOPICS: "storestreams:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
