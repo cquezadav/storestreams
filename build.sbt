@@ -5,8 +5,8 @@ lazy val baseSettings = Seq(
   scalaVersion := "2.11.11",
   libraryDependencies ++= Seq(
     "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
-//    "org.apache.spark" %% "spark-streaming" % sparkVersion % "provided",
-//    "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
+    //    "org.apache.spark" %% "spark-streaming" % sparkVersion % "provided",
+    //    "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
     "org.apache.spark"        %%  "spark-streaming"                   % sparkVersion,
     "org.apache.spark"        %%  "spark-sql"                         % sparkVersion,
     "org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkVersion,
