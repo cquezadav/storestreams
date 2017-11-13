@@ -1,0 +1,19 @@
+---
+
+- name: ensure python 2.7 is installed
+  raw: apt-get install -y python2.7 python-simplejson
+
+- name: Install python
+  apt:
+    name: "{{ item.name }}"
+    state: latest
+    install_recommends: no
+  with_items:
+      - { name: 'python-setuptools' }
+      - { name: 'python-pkg-resources' }
+      - { name: 'python-pip' }
+
+- name: Upgrade pip
+  pip:
+    name: pip
+    extra_args: --upgrade

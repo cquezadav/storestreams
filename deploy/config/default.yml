@@ -1,0 +1,21 @@
+---
+
+# EC2 configuration
+security_group_name: storestreams
+security_group_desc: storestreams group
+region: us-west-2
+vpc_subnet_id: subnet-0ce6486b
+vpc_id: vpc-27bf3540
+ami: ami-835b4efa  # Ubuntu
+keypair: cquezada # pem file name
+assign_public_ip: yes
+volume_size: 32
+
+# AWS credentials
+aws_secret_key: "{{ lookup('env','PERSONAL_AWS_SECRET_KEY') }}"
+aws_access_key: "{{ lookup('env','PERSONAL_AWS_ACCESS_KEY') }}"
+
+# public keys
+pub_keys:
+  - "../../pub_keys/mac.pub"
+  - "../../pub_keys/win.pub"

@@ -1,0 +1,30 @@
+---
+
+- name: Launch Cassandra container
+  docker_container:
+    name: cassandra
+    image: cassandra:3.10
+    ports:
+      - 9042:9042
+      - 9160:9160
+    state: started
+    volumes:
+      - cassandra:/var/lib/cassandra
+    log_driver: json-file
+    log_options:
+      max-size: "200m"
+      max-file: "1"
+
+- name: Copy cassandra schema
+  copy:
+    src: ../../resources/db/schema.cql
+    dest: /etc/schema.cql
+
+- name: Copy cassandra create_schema.sh script
+  copy:
+    src: scripts/create_schema.sh
+    dest: /etc/create_schema.sh
+    mode: 0755
+
+- name: Create cassandra schema
+  shell: /etc/create_schema.sh

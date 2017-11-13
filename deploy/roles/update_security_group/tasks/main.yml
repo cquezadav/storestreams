@@ -1,0 +1,47 @@
+---
+- name: confgure ec2 group
+  ec2_group:
+    name: "{{ security_group_name }}"
+    description: "{{ security_group_desc }}"
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region }}"
+    state: present
+    aws_secret_key: "{{ aws_secret_key }}"
+    aws_access_key: "{{ aws_access_key }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "{{ kafka_host }}/32"
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "{{ cassandra_host }}/32"
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "{{ messagesproducer_host }}/32"
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "{{ rawdataconsumer_host }}/32"
+      - proto: tcp
+        from_port: 9092
+        to_port: 9092
+        cidr_ip: "0.0.0.0/0"
+      # - proto: tcp
+      #   from_port: 9092
+      #   to_port: 9092
+      #   cidr_ip: "{{ messagesproducer_host }}/32"
+      # - proto: tcp
+      #   from_port: 9092
+      #   to_port: 9092
+      #   cidr_ip: "{{ rawdataconsumer_host }}/32"
+      - proto: tcp
+        from_port: 9042
+        to_port: 9042
+        cidr_ip: "{{ messagesproducer_host }}/32"
+      - proto: tcp
+        from_port: 9042
+        to_port: 9042
+        cidr_ip: "{{ rawdataconsumer_host }}/32"

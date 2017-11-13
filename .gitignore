@@ -20,10 +20,13 @@ logs/
 project/*-shim.sbt
 project/project/
 project/target/
-target/
 .scala_dependencies
 .worksheet
 spark-warehouse/
 events/
 .DS_Store
 checkpoint/
+*.pub
+.vagrant/
+metastore_db/
+*.retry

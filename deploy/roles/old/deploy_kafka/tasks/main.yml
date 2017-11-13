@@ -1,0 +1,17 @@
+---
+
+- name: Launch Kakfa container
+  docker_container:
+    name: kafka
+    image: spotify/kafka
+    ports:
+      - 9092:9092
+      - 2181:2181
+    state: started
+    log_driver: json-file
+    log_options:
+      max-size: "200m"
+      max-file: "1"
+    env:
+      ADVERTISED_HOST: "{{ kafka_private_host }}"
+      ADVERTISED_PORT: "9092"

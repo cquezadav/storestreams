@@ -1,0 +1,49 @@
+---
+
+- name: Install default java
+  apt:
+    name: default-jre
+    state: latest
+    install_recommends: no
+
+- name: Install zookeper
+  apt:
+    name: zookeeperd
+    state: latest
+    install_recommends: no
+
+- name: Copy install_kafka.sh script
+  copy:
+    src: scripts/install_kafka.sh
+    dest: /etc/install_kafka.sh
+    mode: 0755
+
+- name: Copy configure_kafka.sh script
+  copy:
+    src: scripts/configure_kafka.sh
+    dest: /etc/configure_kafka.sh
+    mode: 0755
+
+- name: Copy create_kafka_service.sh script
+  copy:
+    src: scripts/create_kafka_service.sh
+    dest: /etc/create_kafka_service.sh
+    mode: 0755
+
+- name: Install kafka
+  shell: /etc/install_kafka.sh >> install_kafka.log
+
+- name: Configure kafka
+  shell: /etc/configure_kafka.sh "{{ kafka_host }}" >> configure_kafka.log
+
+- name: Create kafka service
+  shell: /etc/create_kafka_service.sh >> create_kafka_service.log
+
+- name: Start kafka service
+  shell: systemctl start kafka
+
+- pause:
+    seconds: 30
+
+- name: Create topic
+  shell: /opt/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic storestreams

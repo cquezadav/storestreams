@@ -1,0 +1,15 @@
+---
+
+- name: Configure security group
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+      - "../config/default.yml"
+  vars:
+    cassandra_host: "{{ hostvars[groups['target_cassandra_pub_ip'][0]]['inventory_hostname'] | default('') }}"
+    kafka_host: "{{ hostvars[groups['target_kafka_pub_ip'][0]]['inventory_hostname'] | default('') }}"
+    messagesproducer_host: "{{ hostvars[groups['target_messagesproducer_pub_ip'][0]]['inventory_hostname'] | default('') }}"
+    rawdataconsumer_host: "{{ hostvars[groups['target_rawdataconsumer_pub_ip'][0]]['inventory_hostname'] | default('') }}"
+
+  roles:
+    - update_security_group
