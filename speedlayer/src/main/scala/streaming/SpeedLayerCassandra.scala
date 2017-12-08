@@ -1,5 +1,7 @@
 package streaming
 
+import java.util.TimeZone
+
 import config.ApplicationConfig
 import domain.{EventMessage, EventPerLocationPerHourCount, EventTimeLocation}
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -15,6 +17,8 @@ import scala.collection.mutable
 
 object SpeedLayerCassandra extends App {
 
+  val tzone = TimeZone.getTimeZone("UTC")
+  TimeZone.setDefault(tzone)
   val host = ApplicationConfig.KafkaConfig.host
   val port = ApplicationConfig.KafkaConfig.port
   val topic = ApplicationConfig.KafkaConfig.topic

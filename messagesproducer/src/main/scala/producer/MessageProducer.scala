@@ -1,6 +1,6 @@
 package producer
 
-import java.util.Properties
+import java.util.{Properties, TimeZone}
 
 import com.google.gson.GsonBuilder
 import config.ApplicationConfig
@@ -10,6 +10,8 @@ import scala.util.Random
 
 object MessageProducer extends App {
 
+  val tzone = TimeZone.getTimeZone("UTC")
+  TimeZone.setDefault(tzone)
   val props = new Properties()
   val host = ApplicationConfig.KafkaConfig.host
   val port = ApplicationConfig.KafkaConfig.port

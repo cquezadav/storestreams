@@ -1,11 +1,15 @@
 package streaming
 
+import java.util.TimeZone
+
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SaveMode}
 import spark.SparkUtils
 
 object BatchLayer extends App {
 
+  val tzone = TimeZone.getTimeZone("UTC")
+  TimeZone.setDefault(tzone) Ò
   val spark = SparkUtils.getOrCreateSparkSession()
 
   val rawEvents = spark

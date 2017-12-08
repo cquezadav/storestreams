@@ -4,8 +4,8 @@ import config.ApplicationConfig
 import domain.{EventMessage, EventPerLocationPerHourCount, EventTimeLocation}
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SaveMode}
+import org.apache.spark.sql.functions._
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}
 import org.joda.time.DateTime
@@ -16,6 +16,10 @@ import scala.collection.mutable
 
 object SpeedLayerState extends App {
 
+  import java.util.TimeZone
+
+  val tzone = TimeZone.getTimeZone("UTC")
+  TimeZone.setDefault(tzone)
   val host = ApplicationConfig.KafkaConfig.host
   val port = ApplicationConfig.KafkaConfig.port
   val topic = ApplicationConfig.KafkaConfig.topic
@@ -39,6 +43,7 @@ object SpeedLayerState extends App {
     LocationStrategies.PreferConsistent,
     ConsumerStrategies.Subscribe[String, String](topicList, kafkaParam))
   val rawEvents = rawEventMessagesStream.map(consumerRecord => deserializeEvent(consumerRecord.value()))
+  //rawEvents.print()
 
   val mappingFunc = (key: EventTimeLocation, value: Option[Long], state: State[Long]) => {
     val sum = value.getOrElse(0L) + state.getOption().getOrElse(0L)

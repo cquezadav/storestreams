@@ -2,7 +2,7 @@ package consumer
 
 import java.net.InetAddress
 import java.util.concurrent.{ExecutorService, Executors}
-import java.util.{Collections, Properties}
+import java.util.{Collections, Properties, TimeZone}
 
 import cassandra.CassandraUtils
 import com.datastax.driver.core.utils.UUIDs
@@ -16,6 +16,8 @@ import scala.collection.JavaConversions.iterableAsScalaIterable
 
 class RawDataConsumer {
 
+  val tzone = TimeZone.getTimeZone("UTC")
+  TimeZone.setDefault(tzone)
   val host = ApplicationConfig.KafkaConfig.host
   val port = ApplicationConfig.KafkaConfig.port
   val topic = ApplicationConfig.KafkaConfig.topic

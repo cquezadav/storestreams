@@ -2,6 +2,8 @@
   hosts: services
   become: True
   gather_facts: False
+  vars_files:
+      - "../config/default.yml"
 
   tasks:
     - name: ensure python 2.7 is installed
@@ -54,5 +56,6 @@
       pip:
         name: docker-compose
 
-  # roles:
-  #   - { role: nickjj.docker, tags: docker }
+  roles:
+    - provision_python
+    - add_authorized_key
